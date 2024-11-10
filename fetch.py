@@ -7,8 +7,12 @@ import requests # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
 import re
 import os
+import sys
 import csv
 from datetime import datetime, timedelta
+
+script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+os.chdir(script_dir)
 
 
 outputFileCss = "output.css"
@@ -27,7 +31,7 @@ def main():
 
     # Výpis odkazů
     links = set()
-    #links.update(get_article_links(MainUrl))
+    links.update(get_article_links(MainUrl))
     #for i in range(3,10,1):
     #    links.update(get_article_links(f'https://valka.online/category/aktualni-konflikty/valka-na-ukrajine-denni-analyzy/page/{i}/'))
 
@@ -94,7 +98,7 @@ def main():
             try:
                 soup = getPage(zaznam['link'])
             except:
-                print(f'skipping...   {zaznam['link']}')
+                print(f"skipping...   {zaznam['link']}")
                 pass
             
             if soup:
@@ -106,7 +110,7 @@ def main():
         createHTML(zaznam)
 
         tg = indexPage.new_tag('p')
-        tg.append(BeautifulSoup(f'<a href="pages/{zaznam['date']}.html">{zaznam['date']}</a>', "html.parser"))
+        tg.append(BeautifulSoup(f"<a href=\"pages/{zaznam['date']}.html\">{zaznam['date']}</a>", "html.parser"))
         indexPage.body.append(tg)
 
         continue
@@ -184,7 +188,10 @@ def saveOutputfile(outputPage, outputFile):
 def createHTML(zaznam):
 
     outputPage = outputPage = BeautifulSoup('', "html.parser")
-    outputFile = f'data/pages/{zaznam['date']}.html'
+    outputFile = f"data/pages/{zaznam['date']}.html"
+
+    #vzdy smaz
+    eraseoutputFile(outputFile)
 
     #pokud soubor neni, tak ho vyvori
     outputPage = initOutputFile(outputPage, outputFile)
@@ -198,8 +205,6 @@ def createHTML(zaznam):
     previous_day_str = previous_day.strftime('%d-%m-%Y')
     next_day_str = next_day.strftime('%d-%m-%Y')
 
-
-
     #pokud neni, vytvor
     if not article:
         article = outputPage.new_tag('div')
@@ -207,12 +212,12 @@ def createHTML(zaznam):
         outputPage.html.body.append(article)
         pass
 
-    if not article.find('p', class_='art_links_top'):
-        tg = outputPage.new_tag('p')
+    if not article.find('div', class_='art_links_top'):
+        tg = outputPage.new_tag('div')
         tg['class'] = ['art_links_top']
-        tg.append(BeautifulSoup(f'<a href="{previous_day_str}.html" style="text-align: left; display: block;">předchozi</a>', "html.parser"))
-        tg.append(BeautifulSoup(f'<a href="../index.html" style="text-align: center; display: block;">index</a>', "html.parser"))
-        tg.append(BeautifulSoup(f'<a href="{next_day_str}.html" style="text-align: right; display: block;">další</a>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: left; display: inline-block; width: 33%;"><a href="{previous_day_str}.html">předchozi</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: center; display: inline-block; width: 33%;"><a href="../index.html">index</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: right; display: inline-block; width: 33%;"><a href="{next_day_str}.html">další</a></div>', "html.parser"))
         article.append(tg)
 
     if not article.find('h2', class_='art_title'):
@@ -223,7 +228,7 @@ def createHTML(zaznam):
 
     if not article.find('p', class_='art_link'):
         tg = outputPage.new_tag('p')
-        tg.append(BeautifulSoup(f'<a href="{zaznam['link']}">{zaznam['link']}</a>', "html.parser"))
+        tg.append(BeautifulSoup(f"<a href=\"{zaznam['link']}\">{zaznam['link']}</a>", "html.parser"))
         tg['class'] = ['art_link']
         article.append(tg)
 
@@ -245,12 +250,12 @@ def createHTML(zaznam):
         tresnicka.append(BeautifulSoup(zaznam['tresnicka'], "html.parser"))
         article.append(tresnicka)
 
-    if not article.find('p', class_='art_links_bottom'):
-        tg = outputPage.new_tag('p')
+    if not article.find('div', class_='art_links_bottom'):
+        tg = outputPage.new_tag('div')
         tg['class'] = ['art_links_bottom']
-        tg.append(BeautifulSoup(f'<a href="{previous_day_str}.html" style="text-align: left; display: block;">předchozi</a>', "html.parser"))
-        tg.append(BeautifulSoup(f'<a href="../index.html" style="text-align: center; display: block;">index</a>', "html.parser"))
-        tg.append(BeautifulSoup(f'<a href="{next_day_str}.html" style="text-align: right; display: block;">další</a>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: left; display: inline-block; width: 33%;"><a href="{previous_day_str}.html">předchozi</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: center; display: inline-block; width: 33%;"><a href="../index.html">index</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: right; display: inline-block; width: 33%;"><a href="{next_day_str}.html">další</a></div>', "html.parser"))
         article.append(tg)
 
     saveOutputfile(outputPage, outputFile)

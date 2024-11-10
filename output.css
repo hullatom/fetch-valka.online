@@ -1,6 +1,20 @@
 
+html {
+    width: 100%;
+}
 
 body {
-    width: 700px;
+    max-width: 1000px;
     text-align: justify;
+    font-size: larger;
+    padding: 50px;
+}
+.art_links_top a {
+
+    font-size: larger;
+}
+
+.art_links_bottom a {
+
+    font-size: larger;
 }
