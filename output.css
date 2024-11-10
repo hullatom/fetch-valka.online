@@ -7,7 +7,7 @@ body {
     max-width: 1000px;
     text-align: justify;
     font-size: larger;
-    padding: 50px;
+    padding: 5%;
 }
 .art_links_top a {
 
@@ -17,4 +17,9 @@ body {
 .art_links_bottom a {
 
     font-size: larger;
+}
+
+.navigate-block {
+    display: inline-block; 
+    width: 32%;
 }

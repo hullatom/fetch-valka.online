@@ -215,9 +215,9 @@ def createHTML(zaznam):
     if not article.find('div', class_='art_links_top'):
         tg = outputPage.new_tag('div')
         tg['class'] = ['art_links_top']
-        tg.append(BeautifulSoup(f'<div style="text-align: left; display: inline-block; width: 33%;"><a href="{previous_day_str}.html">předchozi</a></div>', "html.parser"))
-        tg.append(BeautifulSoup(f'<div style="text-align: center; display: inline-block; width: 33%;"><a href="../index.html">index</a></div>', "html.parser"))
-        tg.append(BeautifulSoup(f'<div style="text-align: right; display: inline-block; width: 33%;"><a href="{next_day_str}.html">další</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: left;" class="navigate-block"><a href="{previous_day_str}.html">předchozi</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: center;" class="navigate-block"><a href="../index.html">index</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: right;" class="navigate-block"><a href="{next_day_str}.html">další</a></div>', "html.parser"))
         article.append(tg)
 
     if not article.find('h2', class_='art_title'):
@@ -253,9 +253,9 @@ def createHTML(zaznam):
     if not article.find('div', class_='art_links_bottom'):
         tg = outputPage.new_tag('div')
         tg['class'] = ['art_links_bottom']
-        tg.append(BeautifulSoup(f'<div style="text-align: left; display: inline-block; width: 33%;"><a href="{previous_day_str}.html">předchozi</a></div>', "html.parser"))
-        tg.append(BeautifulSoup(f'<div style="text-align: center; display: inline-block; width: 33%;"><a href="../index.html">index</a></div>', "html.parser"))
-        tg.append(BeautifulSoup(f'<div style="text-align: right; display: inline-block; width: 33%;"><a href="{next_day_str}.html">další</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: left;" class="navigate-block"><a href="{previous_day_str}.html">předchozi</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: center;" class="navigate-block"><a href="../index.html">index</a></div>', "html.parser"))
+        tg.append(BeautifulSoup(f'<div style="text-align: right;" class="navigate-block"><a href="{next_day_str}.html">další</a></div>', "html.parser"))
         article.append(tg)
 
     saveOutputfile(outputPage, outputFile)
